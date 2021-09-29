@@ -1,11 +1,22 @@
-import React from "react";
-import Capital from './Capital';
-import Languages from './Languages';
-import Flag from './Flag';
+import React, { useState } from "react";
+import View from './View';
 
 const Filter = ({countries}) => {
 let list = [];
 let alertMsg = '';
+const [ show,setShow ] = useState(new Array(list.length).fill(false));
+
+    const changeHandler = (i) => {
+        const arr = [...show]; 
+        if(arr[i] === false)
+        arr[i] = true;
+        else
+        arr[i] = false;
+
+        setShow(arr);
+    };
+
+
 if(countries.length === 250){
    alertMsg =  "";
 }
@@ -17,9 +28,8 @@ else if(countries.length < 10){
         return(
             <div key={c.toString()}>
                 <h1 key={c.toString()}>{c.name.common}</h1>
-                <Capital  key={c.toString()} capital={c.capital} />
-                <Languages key={c.toString()} language={c.languages} />
-                <Flag key={c.flags.svg} png={c.flags.png} />
+                <button onClick={() => changeHandler(i)}>Show</button>
+                <View key={c.toString()} country={c} showme={show} index={i} />
             </div>
         )
     })
